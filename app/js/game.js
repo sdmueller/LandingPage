@@ -36,8 +36,8 @@ define(["cameraHelper",
     var c = document.getElementById("gameCanvas");
     c.appendChild(renderer.domElement);
 
-    // add cube
-    cube = new props.Cube(1, 1, 1);
+    // add small cube
+    cube = new props.Cube(1, 1);
     cube.isWireframe(true);
     scene.add(cube.mesh);
   }
@@ -46,7 +46,8 @@ define(["cameraHelper",
     // draw THREE.JS scene
     renderer.render(scene, camera.cam);
 
-    cube.rotateAdd(0.01, 0.01, 0);
+    cube.mesh.rotation.x += 0.01;
+    cube.mesh.rotation.y += 0.01;
 
     // loop draw() function
     requestAnimationFrame(draw);

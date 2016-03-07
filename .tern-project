@@ -3,6 +3,6 @@
   "libs": [],
   "plugins": {
     "app/js/lib/three.min": {},
-    "app/js/lib/require.js": {}
+    "app/js/lib/require": {}
   }
 }
