@@ -1,9 +1,9 @@
 define(["cameraHelper",
         "props",
-        "lib/keyboard",
+        "lib/controller",
         "lib/three.min"], function(cameraHelper, props, keyboard, three) {
   var renderer, scene, camera, cube;
-  var cubeSpeed = 1;
+  var cubeSpeed = 0.01;
 
   function setup() {
     createScene();
@@ -13,8 +13,8 @@ define(["cameraHelper",
   function createScene() {
     // set scene size
     var WIDTH = window.innerWidth, HEIGHT = window.innerHeight;
-    var viewSize = 3;
-    var near = 0.1;
+    var viewSize = 1;
+    var near = 1;
     var far = 10;
 
     // create WebGL renderer
@@ -37,7 +37,7 @@ define(["cameraHelper",
     c.appendChild(renderer.domElement);
 
     // add small cube
-    cube = new props.Cube(1, 1);
+    cube = new props.Cube(0.3, 1);
     cube.isWireframe(true);
     scene.add(cube.mesh);
   }
@@ -57,16 +57,29 @@ define(["cameraHelper",
 
   function cubeMovement() {
     if(Key.isDown(Key.A)) {
-      cube.mesh.position.x -= cubeSpeed * 0.1;
+      cube.mesh.position.x -= cubeSpeed;
     }
     if(Key.isDown(Key.D)) {
-      cube.mesh.position.x += cubeSpeed * 0.1;
+      cube.mesh.position.x += cubeSpeed;
     }
     if(Key.isDown(Key.W)) {
-      cube.mesh.position.y += cubeSpeed * 0.1;
+      cube.mesh.position.y += cubeSpeed;
     }
     if(Key.isDown(Key.S)) {
-      cube.mesh.position.y -= cubeSpeed * 0.1;
+      cube.mesh.position.y -= cubeSpeed;
+    }
+    if(Key.isTouch()) {
+      touchPos = Key.getTouchPos();
+      var diffX = cube.mesh.position.x - touchPos.x;
+      if (diffX != 0) {
+      	if (cube.mesh.position.x > touchPos.x) {cube.mesh.position.x -= cubeSpeed;}
+      	if (cube.mesh.position.x < touchPos.x) {cube.mesh.position.x += cubeSpeed;}
+      }
+      var diffY = cube.mesh.position.y - touchPos.y;
+      if (diffY != 0) {
+      	if (cube.mesh.position.y > touchPos.y) {cube.mesh.position.y -= cubeSpeed;}
+      	if (cube.mesh.position.y < touchPos.y) {cube.mesh.position.y += cubeSpeed;}
+      }
     }
   }
 
