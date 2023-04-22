@@ -11,10 +11,13 @@ function _getXAndYCoords(event) {
   var touch = (event.touches && event.touches[0]) /*|| (event.pointerType && event.pointerType === 'touch' && event)*/;
   
   // normalized device coordinates -> screenToWorld
-  x = ((touch /*|| event*/).clientX / window.innerWidth) * 2 - 1;
-  y = -((touch /*|| event*/).clientY / window.innerHeight) * 2 + 1;
+  if (touch) {
+    x = ((touch /*|| event*/).clientX / window.innerWidth) * 2 - 1;
+    y = -((touch /*|| event*/).clientY / window.innerHeight) * 2 + 1;
+    return {x, y};
+  }
   
-  return {x, y}
+  return null;
 }
 
 var Key = {
@@ -52,14 +55,18 @@ var Key = {
   
   onPointerdown: function(event) {
     var coords = _getXAndYCoords(event);
-    this._pointer['x'] = coords.x;
-    this._pointer['y'] = coords.y;
+    if (coords) {
+      this._pointer['x'] = coords.x;
+      this._pointer['y'] = coords.y;
+    }
   },
   
   onPointermove: function (event) {
     var coords = _getXAndYCoords(event);
-    this._pointer['x'] = coords.x;
-    this._pointer['y'] = coords.y;
+    if (coords) {
+      this._pointer['x'] = coords.x;
+      this._pointer['y'] = coords.y;
+    }
   },
   
   onPointerup: function(event) {
