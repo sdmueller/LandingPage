@@ -7,10 +7,10 @@ window.addEventListener('pointerup', function(event) { Key.onPointerup(event); }
 window.addEventListener('pointermove', function(event) { Key.onPointermove(event); }, false);
 
 function _getXAndYCoords(event) {
-  // get touch event (uncomment to use mouse pointer as touch events)
-  var touch = (event.touches && event.touches[0]) /*|| (event.pointerType && event.pointerType === 'touch' && event)*/;
+  // get touch event
+  var touch = (event.touches && event.touches[0]) || (event.pointerType && event.pointerType === 'touch' && event);
   
-  // normalized device coordinates -> screenToWorld
+  // normalized device coordinates -> screenToWorld | (uncomment to use mouse pointer as touch events)
   if (touch) {
     x = ((touch /*|| event*/).clientX / window.innerWidth) * 2 - 1;
     y = -((touch /*|| event*/).clientY / window.innerHeight) * 2 + 1;
